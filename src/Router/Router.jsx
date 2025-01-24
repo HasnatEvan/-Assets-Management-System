@@ -21,6 +21,8 @@ import AllRequest from "../Pages/Dashboard/AllRequest/AllRequest";
 import MyEmploy from "../Pages/Dashboard/MyEmployList/MyEmploy";
 import MyTeam from "../Pages/Dashboard/MyTeam/MyTeam";
 import EmployHome from "../Pages/EmployHome/EmployHome";
+import Payment from "../Shared/Payment";
+import HrHome from "../Pages/Dashboard/HrHome/HrHome";
 
 
 export const router = createBrowserRouter([
@@ -44,7 +46,12 @@ export const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                path:'/payment',
+                element:<Payment></Payment>
             }
+
         ]
     },
     {
@@ -52,6 +59,12 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
         children: [
             // Hr
+            {
+                path: 'hr-home',
+                element: <PrivateRoute>
+                    <HrRoute><HrHome></HrHome></HrRoute>
+                </PrivateRoute>
+            },
             {
                 path: 'asset-list',
                 element: <PrivateRoute>
@@ -89,6 +102,7 @@ export const router = createBrowserRouter([
                     <MyEmploy></MyEmploy>
                 </PrivateRoute>
             },
+           
 
 
 

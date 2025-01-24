@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes, FaHome, FaUser, FaSignOutAlt, FaClipboardList, FaAsterisk } from 'react-icons/fa';
 import useRole from '../Hooks/useRole';
 
@@ -23,6 +23,17 @@ const SidebarItem = ({ to, icon: Icon, label }) => (
 const DashBoard = () => {
   const [role, isLoading] = useRole();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Redirect if role is 'employ'
+  useEffect(() => {
+    if (!isLoading && role === 'employ') {
+      navigate('/dashboard/emHome');
+    }
+    if (!isLoading && role === 'hr') {
+      navigate('/dashboard/hr-home');
+    }
+  }, [role, isLoading, navigate]);
 
   // Loading State
   if (isLoading) {
@@ -63,7 +74,7 @@ const DashBoard = () => {
           {/* HR Section */}
           {role === 'hr' && (
             <>
-              <SidebarItem to="/" icon={FaHome} label="HR Home" />
+              <SidebarItem to="/dashboard/hr-home" icon={FaHome} label="HR Home" />
               <SidebarItem to="/dashboard/asset-list" icon={FaClipboardList} label="Asset List" />
               <SidebarItem to="/dashboard/addAssets" icon={FaClipboardList} label="Add an Asset" />
               <SidebarItem to="/dashboard/all-requests" icon={FaAsterisk} label="All Requests" />

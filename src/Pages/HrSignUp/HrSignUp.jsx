@@ -3,24 +3,30 @@ import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { imageUpload } from '../../api/utils';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
-// import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';  // নিশ্চিত করুন এটি সঠিকভাবে ইমপোর্ট হয়েছে
 
 const HrSignUp = () => {
-    const { signUp, updateUserProfile, user } = useAuth();
+    const { signUp, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const axiosPublic = useAxiosPublic();
-    // const axiosSecure = useAxiosSecure();
+    const [packagePrice, setPackagePrice] = useState(0); // প্যাকেজ মূল্য
 
-    // const requestHr = async () => {
-    //     try {
-    //         const { data } = await axiosPublic.patch(`/users/${user?.email}`);
-    //         console.log('HR request response:', data);
-    //     } catch (err) {
-    //         console.error('Error requesting HR role:', err.response?.data || err.message);
-    //     }
-    // };
+    const handlePackageChange = (event) => {
+        const selectedPackage = event.target.value;
+        switch (selectedPackage) {
+            case '5':
+                setPackagePrice(5); // 5 সদস্যের প্যাকেজ মূল্য
+                break;
+            case '10':
+                setPackagePrice(8); // 10 সদস্যের প্যাকেজ মূল্য
+                break;
+            case '20':
+                setPackagePrice(15); // 20 সদস্যের প্যাকেজ মূল্য
+                break;
+            default:
+                setPackagePrice(0);
+        }
+    };
 
     const handleSignup = async (event) => {
         event.preventDefault();
@@ -36,7 +42,7 @@ const HrSignUp = () => {
         setIsLoading(true);
 
         try {
-            // Upload image
+            // Image upload
             const photoURL = await imageUpload(image);
 
             // Sign up user
@@ -54,10 +60,12 @@ const HrSignUp = () => {
                 email,
                 dob,
                 packageType,
+                packagePrice, // প্যাকেজ মূল্য
                 role: 'hr',
             };
 
             // Send user data to backend
+            const axiosPublic = useAxiosPublic();  // axiosPublic ডিফাইন করা হবে
             const res = await axiosPublic.post(`/users/${email}`, userInfo);
 
             if (res?.data?.insertedId) {
@@ -67,7 +75,7 @@ const HrSignUp = () => {
                     text: 'You have successfully signed up!',
                 });
                 form.reset();
-                navigate('/');
+                navigate('/payment', { state: { packagePrice } }); // প্যাকেজ মূল্য Payment কম্পোনেন্টে পাঠানো হবে
             } else {
                 throw new Error('Failed to save user data. Please try again.');
             }
@@ -87,6 +95,7 @@ const HrSignUp = () => {
         <div className="max-w-3xl mx-auto p-6">
             <h2 className="text-2xl font-bold text-center mb-6">Sign Up for HR</h2>
             <form onSubmit={handleSignup} className="space-y-4">
+                {/* Form Fields */}
                 <div>
                     <label htmlFor="name" className="block text-sm font-medium">Full Name</label>
                     <input
@@ -155,6 +164,7 @@ const HrSignUp = () => {
                         name="package"
                         className="w-full p-2 border border-gray-300 rounded-md"
                         required
+                        onChange={handlePackageChange} // handle change event
                     >
                         <option value="">Select Package</option>
                         <option value="5">5 Members for $5</option>
@@ -163,7 +173,7 @@ const HrSignUp = () => {
                     </select>
                 </div>
                 <div>
-                    <button 
+                    <button
                         type="submit"
                         className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md"
                         disabled={isLoading}
