@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { imageUpload } from '../../api/utils';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';  // নিশ্চিত করুন এটি সঠিকভাবে ইমপোর্ট হয়েছে
+import { Helmet} from 'react-helmet-async';
 
 const HrSignUp = () => {
     const { signUp, updateUserProfile } = useAuth();
@@ -92,7 +93,11 @@ const HrSignUp = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-6">
+      <div>
+          <Helmet>
+                <title>Manage Mate || Hr Sign Up</title>
+            </Helmet>
+          <div className="max-w-3xl mx-auto p-6">
             <h2 className="text-2xl font-bold text-center mb-6">Sign Up for HR</h2>
             <form onSubmit={handleSignup} className="space-y-4">
                 {/* Form Fields */}
@@ -183,6 +188,7 @@ const HrSignUp = () => {
                 </div>
             </form>
         </div>
+      </div>
     );
 };
 

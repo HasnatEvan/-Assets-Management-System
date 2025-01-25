@@ -1,11 +1,13 @@
 import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const AddAnAssets = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -43,8 +45,12 @@ const AddAnAssets = () => {
                 text: 'Your new asset has been successfully added.',
                 confirmButtonText: 'Okay',
             });
+
+            form.reset(); // Reset form after successful submission
+
+            // Navigate to asset list page
+            navigate('/dashboard/asset-list');
         } catch (err) {
-            // Log error or show a notification to the user
             console.error('Error adding asset:', err);
 
             // Show error alert
@@ -58,30 +64,42 @@ const AddAnAssets = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-6">
-            <h2 className="text-2xl font-bold text-center mb-6">Add New Asset</h2>
-            <form onSubmit={handleSubmit} className="p-6 bg-white shadow-md rounded-md max-w-md mx-auto">
-                <div className="mb-4">
-                    <label htmlFor="productName" className="block text-sm font-medium text-gray-700">
+        <div className="max-w-4xl mx-auto p-6">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">𝑨𝒅𝒅 𝒂 𝑵𝒆𝒘 𝑨𝒔𝒔𝒆𝒕</h2>
+            <form 
+                onSubmit={handleSubmit} 
+                className="p-8 bg-gray-50 border border-gray-200 rounded-lg shadow-lg max-w-lg mx-auto"
+            >
+                {/* Product Name */}
+                <div className="mb-6">
+                    <label 
+                        htmlFor="productName" 
+                        className="block text-lg font-medium text-gray-700 mb-2"
+                    >
                         Product Name
                     </label>
                     <input
                         type="text"
                         id="productName"
                         name="name"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                        className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter product name"
                         required
                     />
                 </div>
-                <div className="mb-4">
-                    <label htmlFor="productType" className="block text-sm font-medium text-gray-700">
+
+                {/* Product Type */}
+                <div className="mb-6">
+                    <label 
+                        htmlFor="productType" 
+                        className="block text-lg font-medium text-gray-700 mb-2"
+                    >
                         Product Type
                     </label>
                     <select
                         id="productType"
                         name="type"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                        className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         required
                     >
                         <option value="" disabled selected>
@@ -91,25 +109,32 @@ const AddAnAssets = () => {
                         <option value="non-returnable">Non-returnable</option>
                     </select>
                 </div>
-                <div className="mb-4">
-                    <label htmlFor="productQuantity" className="block text-sm font-medium text-gray-700">
+
+                {/* Product Quantity */}
+                <div className="mb-6">
+                    <label 
+                        htmlFor="productQuantity" 
+                        className="block text-lg font-medium text-gray-700 mb-2"
+                    >
                         Product Quantity
                     </label>
                     <input
                         type="number"
                         id="productQuantity"
                         name="quantity"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                        className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter quantity"
                         required
                     />
                 </div>
+
+                {/* Submit Button */}
                 <div className="flex justify-center">
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600"
+                        className="bg-[#2596be] text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-[#1f7ca0] focus:outline-none focus:ring-2 focus:ring-[#2596be] transition duration-200"
                     >
-                        Add
+                        Add Asset
                     </button>
                 </div>
             </form>

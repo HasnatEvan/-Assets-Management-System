@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <HrRoute><Update></Update></HrRoute>
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/assets/${params.id}`)
+                loader: ({ params }) => fetch(`https://my-manage-mate-server.vercel.app/assets/${params.id}`)
             },
             {
                 path: 'addAssets',

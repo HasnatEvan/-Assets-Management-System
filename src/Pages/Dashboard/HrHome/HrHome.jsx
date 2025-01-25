@@ -6,35 +6,31 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-// Chart.js এর প্রয়োজনীয় অংশ রেজিস্টার করা
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HrHome = () => {
-    const { user } = useAuth(); // Authenticated User Information
-    const axiosSecure = useAxiosSecure(); // Secure Axios Instance
-    const [requests, setRequests] = useState([]); // Pending requests এর জন্য state
-    const [topRequestedItems, setTopRequestedItems] = useState([]); // টপ রিকোয়েস্ট আইটেম
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [requests, setRequests] = useState([]);
+    const [topRequestedItems, setTopRequestedItems] = useState([]);
     const [pieData, setPieData] = useState({
         labels: ['Returnable', 'Non-Returnable'],
         datasets: [
             {
-                data: [0, 0], // ডিফল্ট ভ্যালু
-                backgroundColor: ['#4CAF50', '#FF5733'], // Green and Red
-                borderColor: ['#388E3C', '#C0392B'], // Darker Shades
+                data: [0, 0],
+                backgroundColor: ['#4CAF50', '#FF5733'],
+                borderColor: ['#388E3C', '#C0392B'],
                 borderWidth: 1,
             },
         ],
     });
-    const [date, setDate] = useState(new Date()); // ক্যালেন্ডারের জন্য তারিখ
+    const [date, setDate] = useState(new Date());
 
     useEffect(() => {
         if (user?.email) {
             axiosSecure
                 .get(`/hr-request/${user.email}`)
                 .then((res) => {
-                    console.log('Data received from backend:', res.data);
-
-                    // Filter only pending requests
                     const pendingRequests = res.data.filter(
                         (request) =>
                             request.status &&
@@ -42,7 +38,6 @@ const HrHome = () => {
                     );
                     setRequests(pendingRequests);
 
-                    // Top requested items
                     const requestCounts = pendingRequests.reduce(
                         (acc, request) => {
                             acc[request.assetName] =
@@ -61,7 +56,6 @@ const HrHome = () => {
 
                     setTopRequestedItems(sortedItems.slice(0, 4));
 
-                    // Returnable এবং Non-returnable আইটেম গুনা
                     const returnable = pendingRequests.filter(
                         (request) =>
                             request.assetType &&
@@ -74,7 +68,6 @@ const HrHome = () => {
                             request.assetType.toLowerCase() === 'non-returnable'
                     ).length;
 
-                    // Pie Chart Data সেট করা
                     setPieData({
                         labels: ['Returnable', 'Non-Returnable'],
                         datasets: [
@@ -95,15 +88,14 @@ const HrHome = () => {
 
     return (
         <div className="container mx-auto px-4 py-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6 py-5 border-b-2 text-center">
-                Hr Manager Dashboard
+            <h1 className="text-3xl font-bold text-black mb-6 py-5 border-b-4 border-[#2596be] text-center">
+                𝑯𝒓-𝑴𝒂𝒏𝒂𝒈𝒆𝒓 𝑫𝒂𝒔𝒉𝒃𝒐𝒂𝒓𝒅
             </h1>
 
             {/* Top Most Requested Items এবং Chart */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10  mb-8">
-                {/* Top Most Requested Items */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
                 <div className="col-span-1">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                    <h2 className="text-xl font-semibold text-[#2596be] mb-4">
                         Top Most Requested Items
                     </h2>
                     <div className="space-y-2">
@@ -129,9 +121,8 @@ const HrHome = () => {
                     </div>
                 </div>
 
-                {/* Pie Chart for Returnable vs Non-Returnable Items */}
                 <div className="col-span-1">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                    <h2 className="text-xl font-semibold text-[#2596be] mb-4">
                         Returnable vs Non-Returnable Items
                     </h2>
                     <div>
@@ -140,11 +131,9 @@ const HrHome = () => {
                 </div>
             </div>
 
-            {/* Calendar Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
-                {/* Calendar */}
                 <div className="col-span-1">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                    <h2 className="text-xl font-semibold text-[#2596be] mb-4">
                         Select a Date
                     </h2>
                     <Calendar
@@ -154,9 +143,8 @@ const HrHome = () => {
                     />
                 </div>
 
-                {/* Extra Section */}
                 <div className="col-span-1 bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                    <h2 className="text-xl font-semibold text-[#2596be] mb-4">
                         Selected Date Information
                     </h2>
                     <p className="text-gray-600 mb-2">
@@ -168,11 +156,12 @@ const HrHome = () => {
                 </div>
             </div>
 
-            {/* Pending Requests Table */}
-            <h2 className='text-3xl text-center font-bold mb-5'>Pending Request</h2>
-            <div className="overflow-x-auto shadow-md rounded-lg border border-gray-200">
+            <h2 className="text-3xl text-center font-bold mb-5 text-black">
+            𝑷𝒆𝒏𝒅𝒊𝒏𝒈 𝑹𝒆𝒒𝒖𝒆𝒔𝒕
+            </h2>
+            <div className="overflow-x-auto shadow-md rounded-lg border border-[#2596be]">
                 <table className="table-auto w-full text-left bg-white">
-                    <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+                    <thead className="bg-[#2596be] text-white text-sm uppercase">
                         <tr>
                             <th className="px-4 py-3 border">#</th>
                             <th className="px-4 py-3 border">Requester</th>
@@ -196,10 +185,11 @@ const HrHome = () => {
                             requests.map((request, index) => (
                                 <tr
                                     key={index}
-                                    className={`$
-                                        {index % 2 === 0
+                                    className={`${
+                                        index % 2 === 0
                                             ? 'bg-gray-50'
-                                            : 'bg-white'} hover:bg-gray-100`}
+                                            : 'bg-white'
+                                    } hover:bg-gray-100`}
                                 >
                                     <td className="px-4 py-3 border text-sm">
                                         {index + 1}

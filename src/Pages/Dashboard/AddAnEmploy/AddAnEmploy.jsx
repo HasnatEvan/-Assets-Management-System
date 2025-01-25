@@ -10,8 +10,8 @@ const AddAnEmploy = () => {
         queryKey: ['emUsers'],
         queryFn: async () => {
             const response = await axiosSecure('/employ-user');
-            console.log("Fetched Response:", response); // পুরো রেসপন্স দেখাও
-            return response.data?.data || []; // শুধুমাত্র data প্রপার্টি রিটার্ন করো
+            console.log("Fetched Response:", response); // Log the full response
+            return response.data?.data || []; // Only return the data property
         },
     });
 
@@ -31,12 +31,12 @@ const AddAnEmploy = () => {
 
     return (
         <div className="p-4 md:p-6">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Employee List</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center text-black">𝑬𝒎𝒑𝒍𝒐𝒚𝒆𝒆 𝑳𝒊𝒔𝒕</h2>
             {emUsers.length > 0 ? (
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse border border-gray-300 text-sm md:text-base">
-                        <thead>
-                            <tr className="bg-gray-100">
+                        <thead className="bg-[#2596be] text-white">
+                            <tr>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">DOB</th>

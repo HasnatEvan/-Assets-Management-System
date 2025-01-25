@@ -6,19 +6,19 @@ const MyEmploy = () => {
     const axiosSecure = useAxiosSecure();
 
     // Fetching the employee data
-    const { data: myEmploy = [], isLoading, isError, error, refetch } = useQuery({
+    const { data: myEmploy = [], isLoading, isError, error, refetch, isFetching } = useQuery({
         queryKey: ['myEmploy'],
         queryFn: async () => {
             const response = await axiosSecure('/get-employ-users');
-            console.log("Fetched Response:", response); // পুরো রেসপন্স দেখাও
-            return response.data?.data || []; // শুধুমাত্র data প্রপার্টি রিটার্ন করো
+            console.log("Fetched Response:", response); // Log the full response
+            return response.data?.data || []; // Only return the data property
         },
     });
 
     // Mutation for removing employee (set role to null)
     const { mutate: removeEmployee } = useMutation({
         mutationFn: async (employeeId) => {
-            const response = await axiosSecure.patch(`/remove-employee/${employeeId}`); // PATCH রিকোয়েস্ট পাঠানো
+            const response = await axiosSecure.patch(`/remove-employee/${employeeId}`); // PATCH request
             return response.data;
         },
         onSuccess: () => {
@@ -27,16 +27,17 @@ const MyEmploy = () => {
     });
 
     if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error: {error.message}</p>;
+    if (isError) return <p>Error: {error?.message}</p>;
 
     return (
         <div className="p-4 md:p-6">
-            <h1 className="text-2xl font-semibold mb-4 text-center">Employee List</h1>
+            <h1 className="text-2xl font-semibold mb-4 text-center">𝑬𝒎𝒑𝒍𝒐𝒚𝒆𝒆 𝑳𝒊𝒔𝒕</h1>
             <button 
                 onClick={() => refetch()} 
-                className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                className={`mb-4 bg-blue-500 text-white px-4 py-2 rounded-md ${isFetching ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isFetching}
             >
-                Refresh
+                {isFetching ? "Refreshing..." : "Refresh"}
             </button>
             <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-300 text-sm md:text-base">

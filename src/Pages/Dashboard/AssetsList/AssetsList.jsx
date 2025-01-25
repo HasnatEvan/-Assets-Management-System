@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";  // Importing the icons
+import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Importing the icons
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
@@ -81,7 +81,7 @@ const AssetsList = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-2xl font-semibold mb-6">Assets Management</h2>
+            <h2 className="text-2xl text-center font-semibold mb-6">𝑨𝒔𝒔𝒆𝒕𝒔 𝑴𝒂𝒏𝒂𝒈𝒆𝒎𝒆𝒏𝒕</h2>
 
             {/* Search, Filter, and Sorting Sections */}
             <div className="mb-4 flex flex-wrap gap-4 justify-between">
@@ -144,11 +144,11 @@ const AssetsList = () => {
                                 <td className="border border-gray-300 px-4 py-2">{new Date(asset.date).toLocaleDateString()}</td>
                                 <td className="border border-gray-300 px-4 py-2 text-center">
                                     <Link to={`/dashboard/updatedItem/${asset._id}`}>
-                                        <button className="px-2 py-1 bg-blue-500 text-white rounded mr-2 flex items-center">
+                                        <button className="px-2 py-1 bg-[#2596BE] text-white rounded mr-2 flex items-center">
                                             <FaEdit />
                                         </button>
                                     </Link>
-                                    <button onClick={() => handleDelete(asset._id)} className="px-2 py-1 bg-red-500 text-white rounded flex items-center">
+                                    <button onClick={() => handleDelete(asset._id)} className="px-2 py-1 bg-red-600 text-white rounded flex items-center">
                                         <FaTrashAlt />
                                     </button>
                                 </td>

@@ -56,6 +56,7 @@ const AllRequest = () => {
     }
   };
 
+  // Filtering requests based on email or name
   const filteredRequests = request.filter(
     (req) =>
       req.requesterName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -81,7 +82,7 @@ const AllRequest = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">Request List</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">𝑹𝒆𝒒𝒖𝒆𝒔𝒕 𝑳𝒊𝒔𝒕</h2>
 
       {/* Search Section */}
       <div className="mb-4 flex justify-center">
@@ -98,7 +99,7 @@ const AllRequest = () => {
       <div className="flex justify-end mb-4">
         <button
           onClick={refetch}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-[#2596be] hover:bg-[#1f7ca0] text-white px-4 py-2 rounded"
         >
           Refresh Data
         </button>
@@ -141,13 +142,13 @@ const AllRequest = () => {
                   <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2 justify-center">
                     <button
                       onClick={() => handleApprove(req._id)}
-                      className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded flex items-center"
+                      className="bg-[#2596be] hover:bg-[#1f7ca0] text-white px-3 py-1 rounded flex items-center"
                     >
                       <FaCheckCircle />
                     </button>
                     <button
                       onClick={() => handleReject(req._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded flex items-center"
+                      className="bg-red-600 hover:bg-[#1f7ca0] text-white px-3 py-1 rounded flex items-center"
                     >
                       <FaTimesCircle />
                     </button>

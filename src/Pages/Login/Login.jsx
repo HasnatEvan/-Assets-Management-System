@@ -3,6 +3,7 @@ import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';  // SweetAlert2 Import
 import { useNavigate } from 'react-router-dom';  // For redirecting
 import GoogleLogin from '../../Shared/GoogleLogin';
+import { Helmet} from 'react-helmet-async';
 
 const Login = () => {
     const { logIn, loading } = useAuth();
@@ -32,7 +33,11 @@ const Login = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50">
+     <div>
+          <Helmet>
+                <title>Manage Mate || Login</title>
+            </Helmet>
+           <div className="flex justify-center items-center min-h-screen bg-gray-50">
             <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
                 <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">Login</h2>
                 <form onSubmit={handleLogin} className="space-y-6">
@@ -101,6 +106,7 @@ const Login = () => {
                 </form>
             </div>
         </div>
+     </div>
     );
 };
 

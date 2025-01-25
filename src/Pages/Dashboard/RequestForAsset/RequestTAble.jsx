@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2"; // Import SweetAlert2
@@ -8,6 +9,7 @@ const RequestTable = ({ asset }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notes, setNotes] = useState(""); // State to hold the notes data
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate(); // Initialize navigate hook
 
   // Initialize request data
   const [request, setRequest] = useState({
@@ -80,6 +82,9 @@ const RequestTable = ({ asset }) => {
         icon: "success",
         confirmButtonText: "Ok",
       });
+
+      // Navigate to 'my-assets' after successful request submission
+      navigate("/dashboard/my-assets");
     } catch (error) {
       console.error("Error submitting request:", error);
 
