@@ -75,33 +75,40 @@ const CheckOutForm = ({ packagePrice }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement
-                options={{
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#424770',
-                            '::placeholder': {
-                                color: '#aab7c4',
-                            },
-                        },
-                        invalid: {
-                            color: '#9e2146',
-                        },
-                    },
-                }}
-            />
-            <button
-                type="submit"
-                disabled={!stripe || isProcessing}
-                className="mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
-            >
-                {isProcessing ? 'Processing...' : `Pay $${packagePrice}`}
-            </button>
-            {error && <p className="text-red-600 mt-2">{error}</p>}
-            {transactionId && <p className="text-green-500 mt-2">Your Transaction ID: {transactionId}</p>}
-        </form>
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+                <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Payment for ${packagePrice}</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="p-4 bg-gray-100 rounded-md">
+                        <CardElement
+                            options={{
+                                style: {
+                                    base: {
+                                        fontSize: '16px',
+                                        color: '#424770',
+                                        '::placeholder': {
+                                            color: '#aab7c4',
+                                        },
+                                    },
+                                    invalid: {
+                                        color: '#9e2146',
+                                    },
+                                },
+                            }}
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={!stripe || isProcessing}
+                        className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 transition-all"
+                    >
+                        {isProcessing ? 'Processing...' : `Pay $${packagePrice}`}
+                    </button>
+                    {error && <p className="text-red-600 text-center">{error}</p>}
+                    {transactionId && <p className="text-green-500 text-center">Your Transaction ID: {transactionId}</p>}
+                </form>
+            </div>
+        </div>
     );
 };
 
