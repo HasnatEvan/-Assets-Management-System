@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { imageUpload } from '../../api/utils';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import GoogleLogin from '../../Shared/GoogleLogin';
-import { Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+import Lottie from 'react-lottie';
+import signUpLottie from '../../assets/lottie/signup.json'; // Import Lottie Animation
 
 const EmSignUp = () => {
     const { signUp, updateUserProfile } = useAuth();
@@ -79,111 +81,129 @@ const EmSignUp = () => {
         }
     };
 
+    // Lottie Animation Settings
+    const defaultOptions = {
+        loop: true,
+        autoplay: true, 
+        animationData: signUpLottie,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
     return (
-     <div>
-          <Helmet>
+        <div>
+            <Helmet>
                 <title>Manage Mate || Employee Sign up</title>
             </Helmet>
-           <div className="max-w-3xl mx-auto p-6">
-            <h2 className="text-2xl font-bold text-center mb-6">Sign Up as Employee</h2>
-            <form onSubmit={handleSignup} className="space-y-4">
-                {/* Full Name */}
-                <div>
-                    <label htmlFor="fullName" className="block text-sm font-medium">Full Name</label>
-                    <input
-                        type="text"
-                        id="fullName"
-                        name="name"
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        required
-                    />
+            <div className="max-w-7xl mx-auto p-6 flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0">
+                {/* Lottie Animation on the Left with increased size */}
+                <div className="w-full lg:w-1/2">
+                    <Lottie options={defaultOptions} height={400} width={400} />
                 </div>
 
-                {/* Profile Picture */}
-                <div>
-                    <label htmlFor="profilePicture" className="block text-sm font-medium">Profile Picture</label>
-                    <input
-                        type="file"
-                        id="profilePicture"
-                        name="image"
-                        accept="image/*"
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        required
-                        onChange={handleImageChange}
-                    />
-                    {imagePreview && (
-                        <div className="mt-2">
-                            <img
-                                src={imagePreview}
-                                alt="Profile Preview"
-                                className="w-32 h-32 object-cover rounded-full"
+                {/* Sign Up Form on the Right */}
+                <div className="w-full lg:w-1/2">
+                    <h2 className="text-2xl font-bold text-center mb-6">𝑺𝒊𝒈𝒏 𝑼𝒑 𝒂𝒔 𝑬𝒎𝒑𝒍𝒐𝒚𝒆𝒆</h2>
+                    <form onSubmit={handleSignup} className="space-y-4">
+                        {/* Full Name */}
+                        <div>
+                            <label htmlFor="fullName" className="block text-sm font-medium">Full Name</label>
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="name"
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
-                    )}
-                </div>
 
-                {/* Email */}
-                <div>
-                    <label htmlFor="email" className="block text-sm font-medium">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        required
-                    />
-                </div>
+                        {/* Profile Picture */}
+                        <div>
+                            <label htmlFor="profilePicture" className="block text-sm font-medium">Profile Picture</label>
+                            <input
+                                type="file"
+                                id="profilePicture"
+                                name="image"
+                                accept="image/*"
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
+                                onChange={handleImageChange}
+                            />
+                            {imagePreview && (
+                                <div className="mt-2">
+                                    <img
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="w-32 h-32 object-cover rounded-full"
+                                    />
+                                </div>
+                            )}
+                        </div>
 
-                {/* Password */}
-                <div>
-                    <label htmlFor="password" className="block text-sm font-medium">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        required
-                    />
-                </div>
+                        {/* Email */}
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
 
-                {/* Date of Birth */}
-                <div>
-                    <label htmlFor="dob" className="block text-sm font-medium">Date of Birth</label>
-                    <input
-                        type="date"
-                        id="dob"
-                        name="dob"
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        required
-                    />
-                </div>
+                        {/* Password */}
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
 
-                {/* Sign Up Button */}
-                <div className="relative">
-                    <button
-                        type="submit"
-                        className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md"
-                        disabled={isLoading || isImageUploading}
-                    >
-                        {isLoading || isImageUploading ? (
-                            <div className="flex justify-center">
-                                <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                                    <path fill="currentColor" d="M4 12a8 8 0 1 1 8 8 8 8 0 0 1-8-8z" className="opacity-75" />
-                                </svg>
-                                Creating your account...
-                            </div>
-                        ) : 'Sign Up'}
-                    </button>
-                </div>
+                        {/* Date of Birth */}
+                        <div>
+                            <label htmlFor="dob" className="block text-sm font-medium">Date of Birth</label>
+                            <input
+                                type="date"
+                                id="dob"
+                                name="dob"
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
 
-                {/* Google Login */}
-                <div className="mt-5">
-                    <GoogleLogin />
+                        {/* Sign Up Button */}
+                        <div className="relative">
+                            <button
+                                type="submit"
+                                className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md"
+                                disabled={isLoading || isImageUploading}
+                            >
+                                {isLoading || isImageUploading ? (
+                                    <div className="flex justify-center">
+                                        <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                                            <path fill="currentColor" d="M4 12a8 8 0 1 1 8 8 8 8 0 0 1-8-8z" className="opacity-75" />
+                                        </svg>
+                                        Creating your account...
+                                    </div>
+                                ) : 'Sign Up'}
+                            </button>
+                        </div>
+
+                        {/* Google Login */}
+                        <div className="mt-5">
+                            <GoogleLogin />
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-     </div>
     );
 };
 
